@@ -1,0 +1,366 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=IBM+Plex+Sans:wght@400;500;700&display=swap");
+
+:root {
+  --bg-1: #f4fbf8;
+  --bg-2: #deefe8;
+  --ink: #15312b;
+  --accent: #0f8b6c;
+  --accent-2: #f08a24;
+  --card: rgba(255, 255, 255, 0.82);
+  --line: rgba(21, 49, 43, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 10%, var(--bg-2), transparent 30%),
+    radial-gradient(circle at 90% 80%, #ffd3a6, transparent 30%), var(--bg-1);
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Hide grid when dashboard is shown */
+body:has(#dashboard:not(.hidden)) .bg-grid {
+  display: none;
+}
+
+.container {
+  position: relative;
+  width: calc(100% - 48px);
+  max-width: none;
+  margin: 12px auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* When dashboard is shown, container becomes normal block layout */
+.container:has(#dashboard:not(.hidden)) {
+  width: calc(100% - 48px);
+  max-width: none;
+  margin: 12px auto;
+  padding: 0 24px;
+  min-height: auto;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  display: block;
+}
+
+/* Floating login panels */
+.panel.brand {
+  width: 420px;
+  max-width: 92%;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+#auth-panel {
+  width: 420px;
+  max-width: 92%;
+}
+
+/* Dashboard styles */
+#dashboard {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  display: block;
+}
+
+#dashboard.hidden {
+  display: none;
+}
+
+.container:has(#dashboard:not(.hidden)) .panel.brand {
+  display: none;
+}
+
+.main-layout {
+  display: flex;
+  gap: 18px;
+}
+.sidebar {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sidebar .nav-btn {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.sidebar .nav-btn:hover {
+  background: rgba(15, 139, 108, 0.08);
+}
+.sidebar .nav-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.content {
+  flex: 1;
+}
+.panel-section {
+  padding: 12px;
+}
+.panel-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.search-wrap {
+  flex: 1;
+  min-width: 220px;
+}
+.list {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  max-height: 280px;
+  overflow: auto;
+  padding: 6px;
+  margin-bottom: 12px;
+}
+.selected-patient-label {
+  margin: 6px 0 12px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.panel {
+  background: var(--card);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  animation: rise 0.45s ease both;
+}
+
+/* Modal styles for register form */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 12, 10, 0.35);
+  z-index: 1200;
+}
+.modal .modal-content {
+  width: 420px;
+  max-width: 92%;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.brand h1 {
+  font-family: "Outfit", sans-serif;
+  font-size: 2rem;
+  margin: 0;
+}
+
+h2,
+h3 {
+  font-family: "Outfit", sans-serif;
+  margin: 0 0 12px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 6px;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  font: inherit;
+}
+
+textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  font: inherit;
+  resize: vertical;
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+button.ghost {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  width: auto;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.dashboard-grid.single-row {
+  grid-template-columns: 1fr 1fr;
+}
+
+.subpanel {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.clinical-tools {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.span2 {
+  grid-column: span 2;
+}
+
+.hidden {
+  display: none;
+}
+
+#patients-list {
+  margin-top: 10px;
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.patient-row {
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+#appointments-list {
+  margin-top: 10px;
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+#history-list {
+  margin-top: 10px;
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.record-row {
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 860px) {
+  .container {
+    flex-direction: column;
+    margin: 10px auto 24px;
+    width: calc(100% - 48px);
+    padding: 0 24px;
+  }
+
+  .container:has(#dashboard:not(.hidden)) {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .sidebar .nav-btn {
+    width: auto;
+    flex: 1 1 120px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid.single-row {
+    grid-template-columns: 1fr;
+  }
+}

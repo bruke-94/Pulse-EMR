@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pulse EMR</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <main class="container">
+      <section class="panel brand">
+        <h1>Pulse EMR</h1>
+        <p>Secure clinical records and appointment workflow for clinics.</p>
+      </section>
+
+      <section class="panel" id="auth-panel">
+        <h2>Sign in</h2>
+        <form id="login-form">
+          <label>Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="doctor@hospital.com"
+            required
+          />
+          <label>Password</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+        <p id="auth-message"></p>
+        <hr />
+        <button id="open-register" class="ghost">Create account</button>
+
+        <!-- Registration -->
+        <div id="register-modal" class="modal hidden">
+          <div class="modal-content panel">
+            <button id="close-register" class="modal-close">×</button>
+            <h3>Create account</h3>
+            <form id="register-form">
+              <input id="reg-fullName" placeholder="Full name" required />
+              <input id="reg-email" type="email" placeholder="Email" required />
+              <input
+                id="reg-password"
+                type="password"
+                placeholder="Password"
+                required
+              />
+              <select id="reg-role" required>
+                <option value="doctor">Doctor</option>
+                <option value="nurse">Nurse</option>
+                <option value="receptionist">Receptionist</option>
+                <option value="admin">Admin</option>
+              </select>
+              <button type="submit">Create account</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="dashboard">
+        <div class="row">
+          <h2>Dashboard</h2>
+          <div>
+            <span id="user-info"></span>
+            <button id="logout-btn" class="ghost">Logout</button>
+          </div>
+        </div>
+
+        <div class="main-layout">
+          <nav class="sidebar">
+            <button class="nav-btn active" data-panel="patients-panel">
+              Patients
+            </button>
+            <button class="nav-btn" data-panel="appointments-panel">
+              Appointments
+            </button>
+            <button class="nav-btn" data-panel="history-panel">History</button>
+          </nav>
+
+          <div class="content">
+            <section id="patients-panel" class="panel-section">
+              <div class="panel-actions">
+                <input
+                  id="patient-search"
+                  placeholder="Search patients by name or MRN"
+                />
+                <button id="refresh-btn" class="ghost">Refresh</button>
+              </div>
+              <div id="patients-list" class="list"></div>
+              <h3>Create Patient</h3>
+              <form id="patient-form" class="grid2">
+                <input id="mrn" placeholder="MRN" required />
+                <input id="firstName" placeholder="First name" required />
+                <input id="lastName" placeholder="Last name" required />
+                <input id="dateOfBirth" type="date" required />
+                <select id="sex" required>
+                  <option value="">Select sex</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+                <input id="phone" placeholder="Phone" />
+                <input id="address" class="span2" placeholder="Address" />
+                <button class="span2" type="submit">Save Patient</button>
+              </form>
+            </section>
+
+            <section id="appointments-panel" class="panel-section hidden">
+              <div class="panel-actions">
+                <button id="refresh-appointments-btn" class="ghost">
+                  Refresh
+                </button>
+              </div>
+              <div id="appointments-list" class="list"></div>
+              <h3>Create Appointment</h3>
+              <form id="appointment-form" class="grid2">
+                <select id="appointmentPatientId" required></select>
+                <select id="doctorId" required></select>
+                <input
+                  id="appointmentDate"
+                  type="datetime-local"
+                  class="span2"
+                  required
+                />
+                <input
+                  id="reason"
+                  class="span2"
+                  placeholder="Reason for visit"
+                  required
+                />
+                <select id="appointmentStatus" class="span2">
+                  <option value="scheduled">Scheduled</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+                <button class="span2" type="submit">Save Appointment</button>
+              </form>
+            </section>
+
+            <section id="history-panel" class="panel-section hidden">
+              <div class="panel-actions">
+                <div class="search-wrap">
+                  <input
+                    id="historyPatientSearch"
+                    list="history-patient-options"
+                    placeholder="Search patient by name or MRN"
+                    required
+                  />
+                  <datalist id="history-patient-options"></datalist>
+                </div>
+                <input type="hidden" id="historyPatientId" />
+                <button id="refresh-history-btn" class="ghost">Refresh</button>
+              </div>
+              <div id="selected-patient-label" class="selected-patient-label">
+                Select a patient to view history
+              </div>
+              <div id="history-list" class="list"></div>
+              <h3>Write Patient History</h3>
+              <form id="history-form" class="grid2">
+                <input
+                  id="encounterDate"
+                  type="datetime-local"
+                  class="span2"
+                  required
+                />
+                <textarea
+                  id="diagnosis"
+                  class="span2"
+                  rows="3"
+                  placeholder="Diagnosis / assessment"
+                ></textarea>
+                <textarea
+                  id="notes"
+                  class="span2"
+                  rows="4"
+                  placeholder="Clinical notes / patient history"
+                ></textarea>
+                <button class="span2" type="submit">Save History</button>
+              </form>
+
+              <section id="clinical-tools" class="clinical-tools">
+                <div class="panel-actions">
+                  <select id="encounterId"></select>
+                  <button id="refresh-clinical-btn" class="ghost" type="button">
+                    Refresh
+                  </button>
+                </div>
+
+                <div class="dashboard-grid single-row">
+                  <section class="subpanel">
+                    <h3>Vital Signs</h3>
+                    <form id="vitals-form" class="grid2">
+                      <input
+                        id="temperatureC"
+                        type="number"
+                        step="0.1"
+                        placeholder="Temperature (C)"
+                      />
+                      <input
+                        id="pulseBpm"
+                        type="number"
+                        placeholder="Pulse (bpm)"
+                      />
+                      <input
+                        id="respiratoryRate"
+                        type="number"
+                        placeholder="Respiratory rate"
+                      />
+                      <input
+                        id="spo2Percent"
+                        type="number"
+                        placeholder="SpO2 %"
+                      />
+                      <input
+                        id="systolicBp"
+                        type="number"
+                        placeholder="Systolic BP"
+                      />
+                      <input
+                        id="diastolicBp"
+                        type="number"
+                        placeholder="Diastolic BP"
+                      />
+                      <input
+                        id="recordedAt"
+                        type="datetime-local"
+                        class="span2"
+                        required
+                      />
+                      <button class="span2" type="submit">
+                        Save Vital Signs
+                      </button>
+                    </form>
+                    <div id="vitals-list" class="list"></div>
+                  </section>
+
+                  <section class="subpanel">
+                    <h3>Prescriptions</h3>
+                    <form id="prescription-form" class="grid2">
+                      <input
+                        id="medicationName"
+                        class="span2"
+                        placeholder="Medication name"
+                        required
+                      />
+                      <input id="dosage" placeholder="Dosage" required />
+                      <input id="frequency" placeholder="Frequency" required />
+                      <input
+                        id="durationDays"
+                        type="number"
+                        min="1"
+                        placeholder="Duration days"
+                        required
+                      />
+                      <textarea
+                        id="instructions"
+                        class="span2"
+                        rows="3"
+                        placeholder="Instructions"
+                      ></textarea>
+                      <button class="span2" type="submit">
+                        Save Prescription
+                      </button>
+                    </form>
+                    <div id="prescriptions-list" class="list"></div>
+                  </section>
+                </div>
+              </section>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./js/app.js"></script>
+  </body>
+</html>
